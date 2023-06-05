@@ -326,6 +326,59 @@ void MainWindow::printPath()
     }
 }
 
+QString MainWindow::Deixtra(int &start, QString &res)
+{
+    for (int i = 0; i < vertexList.size(); i++)
+        for (int j = 0; j < vertexList.size(); j++)
+            if (matrix_graph[i][j] < 0)
+                return res;
+    if (get_vert_pos(start) == -1)
+        return res;
+    QVector<bool> visitedVerts(vertexList.size());
+    for (auto it = visitedVerts.begin(); it!=visitedVerts.end(); ++it) *it = false;
+
+    this->FillLabels(start);
+    int curSrc = start;
+    QVector<int> neighbors;
+
+    while (!this->AllVisited(visitedVerts))
+    {
+        neighbors = this->GetNbrs(curSrc);
+        int startLabel = labelList[get_vert_pos(curSrc)];
+
+        int* minNeighbor_ptr = nullptr;
+        int minW = 1000000;
+
+        for (int i = 0; i < neighbors.size(); ++i)
+        {
+            int weight = this->GetWeight(curSrc, neighbors[i]);
+            int nIndex = this->get_vert_pos(neighbors[i]);
+            int nextLabel = labelList[nIndex];
+
+            if (startLabel + weight < nextLabel) labelList[nIndex] = startLabel + weight;
+
+            if (!visitedVerts[nIndex] && minW > labelList[nIndex])
+            {
+                minW = labelList[nIndex];
+                minNeighbor_ptr = &neighbors[i];
+            }
+        }
+        visitedVerts[get_vert_pos(curSrc)] = true;
+        if (minNeighbor_ptr != nullptr) curSrc = *minNeighbor_ptr;
+    }
+
+    for (int i = 0; i < vertexList.size(); ++i)
+    {
+        if (i != get_vert_pos(start)){
+            res+= "Кратчайшее расстояние от вершины " + QString::number(start + 1)
+                + " до вершины "  + QString::number(vertexList[i] + 1) + " равно "
+                + QString::number(labelList[get_vert_pos(vertexList[i])]) + "\n";
+        }
+    }
+    return res;
+
+}
+
 void MainWindow::on_TSPButtonClicked() {
     getMatrix();
     commi();
