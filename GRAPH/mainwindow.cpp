@@ -328,13 +328,7 @@ void MainWindow::printPath()
 
 QString MainWindow::Deixtra(int &start, QString &res)
 {
-    for (int i = 0; i < vertexList.size(); i++)
-        for (int j = 0; j < vertexList.size(); j++)
-            if (matrix_graph[i][j] < 0)
-                return res;
-    if (get_vert_pos(start) == -1)
-        return res;
-    QVector<bool> visitedVerts(vertexList.size());
+    QVector<bool> visitedVerts(ui->matrix->columnCount());
     for (auto it = visitedVerts.begin(); it!=visitedVerts.end(); ++it) *it = false;
 
     this->FillLabels(start);
@@ -343,7 +337,7 @@ QString MainWindow::Deixtra(int &start, QString &res)
 
     while (!this->AllVisited(visitedVerts))
     {
-        neighbors = this->GetNbrs(curSrc);
+        neighbors = this->getNeighbours(curSrc);
         int startLabel = labelList[get_vert_pos(curSrc)];
 
         int* minNeighbor_ptr = nullptr;
@@ -377,6 +371,32 @@ QString MainWindow::Deixtra(int &start, QString &res)
     }
     return res;
 
+}
+
+bool MainWindow::AllVisited(QVector<bool> &visitedVerts)
+{
+    bool flag = true;
+    for (int i = 0; i < this->vertexList.size(); i++)
+        if (visitedVerts[i] != true)
+            flag = false;
+    return flag;
+}
+
+void MainWindow::FillLabels(int &start)
+{
+    for (int i = 0, size = vertexList.size(); i < size; ++i)
+            labelList[i] = 1000000;
+        int pos = get_vert_pos(start);
+        labelList[pos] = 0;
+};
+int MainWindow::GetWeight(int x, int y)
+{
+    this -> fill_matrix();
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++)
+            if(i == x && j == y)
+                return matrix_graph[i][j];
+    return 0;
 }
 
 void MainWindow::on_TSPButtonClicked() {
