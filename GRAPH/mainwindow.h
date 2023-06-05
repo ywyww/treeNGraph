@@ -67,5 +67,7 @@ private:
     QVector<int> path;
     QString solution;
     QQueue<int> tmpQueue;
+    QVector<int> vertexList;
+    QVector<int> labelList {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 };
 #endif // MAINWINDOW_H
