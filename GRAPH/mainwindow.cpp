@@ -391,12 +391,7 @@ void MainWindow::FillLabels(int &start)
 };
 int MainWindow::GetWeight(int x, int y)
 {
-    this -> fill_matrix();
-    for(int i = 0; i < n; i++)
-        for(int j = 0; j < n; j++)
-            if(i == x && j == y)
-                return matrix_graph[i][j];
-    return 0;
+    return matrix[x][y];
 }
 
 void MainWindow::on_TSPButtonClicked() {
