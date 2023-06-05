@@ -38,7 +38,9 @@ public:
     void setInfinity(int i = -1, int j = -1);
     void printPath();
     //endcommi
-
+    
+     QString Deixtra(int &, QString &);
+    
     virtual void paintEvent(QPaintEvent *event);
     void paintEllipse(QPainter &painter, int numberOfVerticies = 0);
     void bindEllipseWithDirection(QPainter &painter, int numberOfVerticies = 0);
