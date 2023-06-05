@@ -39,7 +39,10 @@ public:
     void printPath();
     //endcommi
     
-     QString Deixtra(int &, QString &);
+    QString Deixtra(int &, QString &);
+    bool MainWindow::AllVisited(QVector<bool> &visitedVerts);
+    void MainWindow::FillLabels(int &start);
+    int MainWindow::GetWeight(int x, int y);
     
     virtual void paintEvent(QPaintEvent *event);
     void paintEllipse(QPainter &painter, int numberOfVerticies = 0);
